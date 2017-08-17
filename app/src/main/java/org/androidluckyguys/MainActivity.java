@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import org.androidluckyguys.adapter.NamesListAdapter;
 import org.androidluckyguys.db.ProviderMetadata;
 import org.androidluckyguys.model.NameModel;
 import org.androidluckyguys.services.MposIntentService;
@@ -38,8 +39,13 @@ public class MainActivity extends AppCompatActivity implements  LoaderManager.Lo
          activity = MainActivity.this;
          recylerView = (RecyclerView)findViewById(R.id.recylerView);
 
+        /* fetching json api data from intent Service */
         getPersonObjectData(activity);
 
+        updateRecylerView(dbDataList);
+
+
+        /* intialize loader callbacks */
         addCallbacks();
 
     }
@@ -74,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements  LoaderManager.Lo
                 // Create a new CursorLoader with the following query parameters.
                 return new CursorLoader(this, ProviderMetadata.PersonObjectMetaData.CONTENT_URI,
                         projCvp, null, null, null);
+            //  query = " SELECT _id, name, email, phone FROM person_data ORDER BY _id DESC "
 
             default:
                 return null;
@@ -85,28 +92,34 @@ public class MainActivity extends AppCompatActivity implements  LoaderManager.Lo
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         switch (loader.getId()) {
             case LOADER_ID_PERSON_OBJECT_TYPE:
+
                 if (cursor!=null && cursor.getCount() > 0) {
+                   /* clearing the list to remove old data*/
+                    dbDataList.clear();
                     cursor.moveToFirst();
-                    String name = cursor.getString(cursor.getColumnIndex(ProviderMetadata.PersonObjectMetaData.REC_MASTER_NAME));
+                    while(!cursor.isAfterLast()) {
+
+                        String name = cursor.getString(cursor.getColumnIndex(ProviderMetadata.PersonObjectMetaData.REC_MASTER_NAME));
                     /*String storeName = cursor.getString(cursor.getColumnIndex(
                             ProviderMetadata.AccountMetaData.REC_ACCOUNT_STORE_NAME));*/
-                    if (name != null) {
+                        if (name != null) {
 
 
-                        Toast.makeText(this,name+" "+cursor.getCount()+"",Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, name + " " + cursor.getCount() + "", Toast.LENGTH_LONG).show();
 
-                        NameModel model = new NameModel();
-                        model.setName(cursor.getString(cursor.getColumnIndex(ProviderMetadata.PersonObjectMetaData.REC_MASTER_NAME)));
-                        model.setEmail(cursor.getString(cursor.getColumnIndex(ProviderMetadata.PersonObjectMetaData.REC_MASTER_EMAIL)));
-                        model.setPhone(cursor.getString(cursor.getColumnIndex(ProviderMetadata.PersonObjectMetaData.REC_MASTER_PHONE)));
-                        dbDataList.add(model);
+                            NameModel model = new NameModel();
+                            model.setName(cursor.getString(cursor.getColumnIndex(ProviderMetadata.PersonObjectMetaData.REC_MASTER_NAME)));
+                            model.setEmail(cursor.getString(cursor.getColumnIndex(ProviderMetadata.PersonObjectMetaData.REC_MASTER_EMAIL)));
+                            model.setPhone(cursor.getString(cursor.getColumnIndex(ProviderMetadata.PersonObjectMetaData.REC_MASTER_PHONE)));
+                            dbDataList.add(model);
 
 
+                        }
+                        cursor.moveToNext();
                     }
-
                 }
-
-                updateRecylerView(dbDataList);
+              /* notify adapter about any new change*/
+                mAdapter.notifyDataSetChanged();
                 break;
         }}
 

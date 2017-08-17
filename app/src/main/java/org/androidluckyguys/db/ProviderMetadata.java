@@ -21,11 +21,9 @@ public class ProviderMetadata {
         }
 
         public static final String TABLE_NAME = "person_data";
-        //uri and MIME type definitions
+        // uri and MIME type definitions
         public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/person_data");
-       // public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.xchanging.ycms.mpos.person_data";
-       public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.androidluckyguys.person_data";
-
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.androidluckyguys.person_data";
         public static final String DEFAULT_SORT_ORDER = "";
 
         //COLUMNS                 <!--com.xchanging.ycms.mpos.db-->
@@ -35,15 +33,5 @@ public class ProviderMetadata {
         public static final String REC_MASTER_PHONE = "phone";
 
     }
-/*
-    {
-        "name" : "Ravi Tamada",
-            "email" : "ravi8x@gmail.com",
-            "phone" : {
-        "home" : "08947 000000",
-                "mobile" : "9999999999"
-    }
-
-    }*/
 
 }

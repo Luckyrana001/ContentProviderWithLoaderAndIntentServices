@@ -241,6 +241,22 @@ public class DataBaseOperationWrapper {
 
     public static void insertPersonObjectData(Context context, String name, String email, String phone)
     {
+         /* get data from db acc to ids
+         *
+         * String[] args = { "lucky firstString", "second@string.com" };
+
+           Cursor cursor = db.query("TABLE_NAME", null, "name=? AND email=?", args, null);
+
+           projArgs is about how many column data you want to fetch - need to specify each column which we want to fetch
+
+           selectionArgs is like select * from table where id = 11
+
+          and second last args is like how many rows you want to fetch from db
+
+           String[] args = { OBJECT_TYPE+"" };
+
+           last parameter is to define the sort order of data */
+
 
         try {
             ContentValues dataToInsert = new ContentValues();

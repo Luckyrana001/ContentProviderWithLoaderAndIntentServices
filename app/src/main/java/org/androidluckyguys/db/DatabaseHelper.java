@@ -18,9 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-
-
-        //States data Table
+        //Creating person object data Table
         db.execSQL("CREATE TABLE " + ProviderMetadata.PersonObjectMetaData.TABLE_NAME + " ("
                 + ProviderMetadata.PersonObjectMetaData._ID + " INTEGER PRIMARY KEY,"
                 + ProviderMetadata.PersonObjectMetaData.REC_MASTER_NAME + " TEXT,"
@@ -38,13 +36,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        Log.d(TAG,"inner onupgrade called");
         Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                 + newVersion + ", which will destroy all old data");
 
-
         db.execSQL("DROP TABLE IF EXISTS " + ProviderMetadata.PersonObjectMetaData.TABLE_NAME);
-
         onCreate(db);
     }
 }
